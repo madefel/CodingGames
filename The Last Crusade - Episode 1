@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int W; // number of columns.
+    int H; // number of rows.
+    cin >> W >> H; cin.ignore();
+    int Matrix [W][H]= {};
+    for (int i = 0; i < H; i++) {
+        string LINE;
+        getline(cin, LINE); // represents a line in the grid and contains W integers. Each integer represents one room of a given type.
+        
+        cerr << "Line: " << LINE << "; W: " << W << "; H= " << i << endl;
+
+        //converting LINE in int and storing in Matrix
+        int z=0;
+        int j=0;
+        while (j<W) {
+            Matrix[j][i] = stoi(LINE.substr(z,2));
+            cerr << "Matrix: " << Matrix[j][i] << "; j: " << j << "; i: " << i << endl;
+            j++;
+            z = 2*j;
+        }
+        //cerr << "Test posizione Indy " << Matrix[1][0] << endl;
+    }
+    int EX; // the coordinate along the X axis of the exit (not useful for this first mission, but must be read).
+    cin >> EX; cin.ignore();
+
+    // game loop
+    while (1) {
+        int XI;
+        int YI;
+        string POS;
+        cin >> XI >> YI >> POS; cin.ignore();
+
+        // Write an action using cout. DON'T FORGET THE "<< endl"
+        // To debug: cerr << "Debug messages..." << endl;
+        int Type = Matrix[XI][YI];
+        cerr << "XI: " << XI << "; YI: " << YI << "; Type: " << Type << endl;
+        //Move Down
+        if ( (Type == 1) || (Type == 3) || ((Type == 4) && (POS=="RIGHT")) || ((Type == 5) && (POS == "LEFT")) || (Type == 7) || (Type == 8) || (Type == 9) || (Type == 12) || (Type == 13) ) {
+            cout << XI << " " << ++YI << endl;
+            cerr << "Moving Down" << endl;
+        }
+        //Move Right
+        if ( ((Type == 6) && (POS=="LEFT")) || ((Type == 2) && (POS=="LEFT")) || (Type == 11) || ((Type == 5) && (POS=="TOP")) ) {
+            cout << ++XI << " " << YI << endl;
+            cerr << "Moving Right" << endl;
+        }
+        //Move Left
+        if ( ((Type == 6) && (POS=="RIGHT")) || ((Type == 2) && (POS=="RIGHT")) || (Type == 10) || ((Type == 4) && (POS=="TOP")) ) {
+            cout << --XI << " " << YI << endl;
+            cerr << "Moving Left" << endl;
+        }
+        // One line containing the X Y coordinates of the room in which you believe Indy will be on the next turn.
+    }
+}
