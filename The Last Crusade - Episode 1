@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
@@ -20,18 +21,19 @@ int main()
         string LINE;
         getline(cin, LINE); // represents a line in the grid and contains W integers. Each integer represents one room of a given type.
         
+        //Converting LINE in array of int
+        std::stringstream in(LINE);
+        std::vector<int> LINEint;
+        int temp;
+        while(in >> temp) {
+        LINEint.push_back(temp);
+        }
+        for (int j=0; j<W; j++) {
+            Matrix[j][i] = LINEint[j];
+        }
         cerr << "Line: " << LINE << "; W: " << W << "; H= " << i << endl;
 
-        //converting LINE in int and storing in Matrix
-        int z=0;
-        int j=0;
-        while (j<W) {
-            Matrix[j][i] = stoi(LINE.substr(z,2));
-            cerr << "Matrix: " << Matrix[j][i] << "; j: " << j << "; i: " << i << endl;
-            j++;
-            z = 2*j;
-        }
-        //cerr << "Test posizione Indy " << Matrix[1][0] << endl;
+
     }
     int EX; // the coordinate along the X axis of the exit (not useful for this first mission, but must be read).
     cin >> EX; cin.ignore();
@@ -47,6 +49,7 @@ int main()
         // To debug: cerr << "Debug messages..." << endl;
         int Type = Matrix[XI][YI];
         cerr << "XI: " << XI << "; YI: " << YI << "; Type: " << Type << endl;
+        
         //Move Down
         if ( (Type == 1) || (Type == 3) || ((Type == 4) && (POS=="RIGHT")) || ((Type == 5) && (POS == "LEFT")) || (Type == 7) || (Type == 8) || (Type == 9) || (Type == 12) || (Type == 13) ) {
             cout << XI << " " << ++YI << endl;
